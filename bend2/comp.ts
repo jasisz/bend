@@ -3118,6 +3118,9 @@ function js_def(fl: File, k: Name, def: Bend.Def): void {
 function js_marshal(fl: File, A: HTerm | null, out: boolean): string {
   const book = fl.book;
   const t = ty_wnf(book, A);
+  if (t?.$ === "Rwt") {
+    return js_marshal(fl, t.f, out);
+  }
   if (t?.$ === "All") {
     const y = js_marshal(fl, t.B(DUMMY), out);
     if (!quant_live(t.q)) {
